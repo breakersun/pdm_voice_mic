@@ -227,7 +227,7 @@ Char paTaskStack[PA_TASK_STACK_SIZE];
 static uint8_t scanRspData[] =
 {
  // complete name
- 0x16,   // length of this data
+ 0x11,   // length of this data
  GAP_ADTYPE_LOCAL_NAME_COMPLETE,
  'S','i','m','p','l','e','B','L','E',
  'A','u','d','i','o','T','x',
