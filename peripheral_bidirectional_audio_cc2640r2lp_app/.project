@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>peripheral_bidirectional_audio_cc2640r2lp_app</name>
+	<name>pdm_voice_cc2640r2lp_app</name>
 	<comment></comment>
 	<projects>
 		<project>peripheral_bidirectional_audio_cc2640r2lp_stack_library</project>
