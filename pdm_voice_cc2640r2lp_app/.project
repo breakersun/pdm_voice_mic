@@ -163,16 +163,6 @@
 			<locationURI>PARENT-5-PROJECT_BUILD_BASE/source/ti/blestack/profiles/audio_dle/audio_client_disc.h</locationURI>
 		</link>
 		<link>
-			<name>Profiles/audio_profile_dle.c</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_BUILD_BASE/source/ti/blestack/profiles/audio_dle/audio_profile_dle.c</locationURI>
-		</link>
-		<link>
-			<name>Profiles/audio_profile_dle.h</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_BUILD_BASE/source/ti/blestack/profiles/audio_dle/audio_profile_dle.h</locationURI>
-		</link>
-		<link>
 			<name>Startup/Board I2S</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
