@@ -127,6 +127,7 @@
 #define PA_CONN_EVT                          0x0008
 #define PA_KEY_CHANGE_EVT                    0x0010
 #define PA_AUDIO_EVT                         0x0020
+#define PA_AUDIO_USER_FIRE                   0x0040
 
 // Internal Events for RTOS application
 #define PA_ICALL_EVT                         ICALL_MSG_EVENT_ID  // Event_Id_31
@@ -377,6 +378,11 @@ void PeripheralAudio_setEvent(uint8_t newEvents)
   PeripheralAudio_enqueueMsg(PA_AUDIO_EVT, newEvents, NULL);
 }
 
+
+void Peripheral_audioFireEvent(uint8_t newEvents)
+{
+  PeripheralAudio_enqueueMsg(PA_AUDIO_USER_FIRE, newEvents, NULL);
+}
 /*********************************************************************
  * @fn      PeripheralAudio_init
  *
@@ -858,6 +864,14 @@ static void PeripheralAudio_processAppMsg(sbpEvt_t *pMsg)
       ICall_free(pMsg->pData);
       break;
     }
+    case PA_AUDIO_USER_FIRE:
+    {
+        if (pMsg->hdr.state == AUDIO_NOTIFY_ENABLED)
+            AudioDuplex_startStreaming(AUDIO_DUPLEX_STREAM_TYPE_ADPCM);
+        else if (pMsg->hdr.state == AUDIO_NOTIFY_DISABLED)
+            AudioDuplex_stopStreaming();
+        break;
+    }
 
     default:
       // Do nothing.
@@ -923,7 +937,7 @@ static void PeripheralAudio_processStateChangeEvt(gaprole_States_t newState)
       Display_printf(dispHandle, 3, 0, Util_convertBdAddr2Str(peerAddress));
 
       // Startup discovery processing on peer
-      AudioClientDisc_open(&audioSvcHandles);
+//      AudioClientDisc_open(&audioSvcHandles);
 
       break;
     }
@@ -971,14 +985,7 @@ static void PeripheralAudio_processStateChangeEvt(gaprole_States_t newState)
 
 static void Audio_charValueChangeCB(uint8_t paramID)
 {
-    if (paramID == AUDIO_NOTIFY_ENABLED)
-    {
-        Display_printf(dispHandle, 2, 0, "AUDIO_NOTIFY_ENABLED");
-    }
-    else
-    {
-        Display_printf(dispHandle, 2, 0, "AUDIO_NOTIFY_DISABLED");
-    }
+    Peripheral_audioFireEvent(paramID);
 }
 
 /*********************************************************************
