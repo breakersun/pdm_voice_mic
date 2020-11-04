@@ -126,6 +126,8 @@ typedef struct
  * API FUNCTIONS
  */
 
+extern bStatus_t Audio_RegisterAppCBs( audioProfileCBs_t *appCallbacks );
+
 /*********************************************************************
  * @fn          Audio_AddService
  *
