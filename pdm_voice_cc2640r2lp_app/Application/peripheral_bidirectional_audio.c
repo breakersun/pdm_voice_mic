@@ -72,7 +72,7 @@
 
 // Audio Profile and Discovery code
 #include <profiles/audio_dle/audio_duplex.h>
-#include <profiles/audio_dle/audio_profile_dle.h>
+#include "Profiles/audio_profile_dle.h"
 #include <profiles/audio_dle/audio_client_disc.h>
 
 
@@ -278,6 +278,7 @@ static void PeripheralAudio_processStateChangeEvt(gaprole_States_t newState);
 static void PeripheralAudio_sendAttRsp(void);
 static void PeripheralAudio_freeAttRsp(uint8_t status);
 static void PeripheralAudio_stateChangeCB(gaprole_States_t newState);
+static void Audio_charValueChangeCB(uint8_t paramID);
 static uint8_t PeripheralAudio_enqueueMsg(uint8_t event, uint8_t state,
                                               uint8_t *pData);
 static void PeripheralAudio_passcodeCB(uint8_t *deviceAddr,
@@ -312,6 +313,12 @@ static gapBondCBs_t simpleBLEPeripheral_BondMgrCBs =
 {
  (pfnPasscodeCB_t) PeripheralAudio_passcodeCB,  // Passcode callback
  PeripheralAudio_pairStateCB                    // Pairing state callback
+};
+
+// Audio DLE Profile Callbacks
+static audioProfileCBs_t AudioDleCBs =
+{
+  Audio_charValueChangeCB // Simple GATT Characteristic value change callback
 };
 
 /*********************************************************************
@@ -508,6 +515,8 @@ static void PeripheralAudio_init(void)
 
   AudioDuplex_open(dispHandle, hSbpPins,
                    (pfnAudioDuplexCB_t)PeripheralAudio_setEvent);
+
+  Audio_RegisterAppCBs(&AudioDleCBs);
 }
 
 /*********************************************************************
@@ -957,6 +966,28 @@ static void PeripheralAudio_processStateChangeEvt(gaprole_States_t newState)
       Display_clearLine(dispHandle, 2);
       break;
   }
+}
+
+
+static void Audio_charValueChangeCB(uint8_t paramID)
+{
+//    if(paramID == SIMPLEPROFILE_CHAR1)
+//    {
+//        uint8_t *pData;
+//
+//        // Allocate space for the event data.
+//        if ((pData = ICall_malloc(SIMPLEPROFILE_CHAR1_LEN)))
+//        {
+//            SimpleProfile_GetParameter(SIMPLEPROFILE_CHAR1, pData);
+//
+//            // Queue the event.
+//            SimpleBLEPeripheral_enqueueMsg(SBP_CHAR_CHANGE_EVT, paramID, pData);
+//        }
+//    }
+//    else
+//    {
+//        SimpleBLEPeripheral_enqueueMsg(SBP_CHAR_CHANGE_EVT, paramID, 0);
+//    }
 }
 
 /*********************************************************************
