@@ -62,6 +62,10 @@ extern "C"
 /*********************************************************************
  * CONSTANTS
  */
+
+#define AUDIO_NOTIFY_ENABLED            (0x01U)
+#define AUDIO_NOTIFY_DISABLED           (0x00U)
+
 // Profile Parameters
 #define AUDIOPROFILE_START              0
 #define AUDIOPROFILE_AUDIO              1

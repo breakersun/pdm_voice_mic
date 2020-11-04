@@ -51,7 +51,7 @@
 #include <string.h>
 #include "bcomdef.h"
 
-#include "audio_profile_dle.h"
+#include "Profiles/audio_profile_dle.h"
 #include "icall_ble_api.h"
 
 /*********************************************************************
@@ -494,6 +494,7 @@ static bStatus_t audioProfile_WriteAttrCB(uint16_t connHandle,
                                           uint8_t method)
 {
   bStatus_t status = SUCCESS;
+  uint8 notifyApp = 0xFF;
 
   if (offset != 0)
   {
@@ -509,6 +510,10 @@ static bStatus_t audioProfile_WriteAttrCB(uint16_t connHandle,
       case GATT_CLIENT_CHAR_CFG_UUID:
         status = GATTServApp_ProcessCCCWriteReq(connHandle, pAttr, pValue, len,
                                                 offset, GATT_CLIENT_CFG_NOTIFY);
+        if (*pValue)
+            notifyApp = AUDIO_NOTIFY_ENABLED;
+        else
+            notifyApp = AUDIO_NOTIFY_DISABLED;
         break;
 
       default:
@@ -538,6 +543,12 @@ static bStatus_t audioProfile_WriteAttrCB(uint16_t connHandle,
   else
   {
     status = ATT_ERR_INVALID_HANDLE;
+  }
+
+  // If a characteristic value changed then callback function to notify application of change
+  if ( (notifyApp != 0xFF ) && audioProfile_AppCBs && audioProfile_AppCBs->pfnAudioProfileChange )
+  {
+      audioProfile_AppCBs->pfnAudioProfileChange( notifyApp );
   }
 
   return status;

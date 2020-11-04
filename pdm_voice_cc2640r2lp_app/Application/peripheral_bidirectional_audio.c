@@ -318,7 +318,7 @@ static gapBondCBs_t simpleBLEPeripheral_BondMgrCBs =
 // Audio DLE Profile Callbacks
 static audioProfileCBs_t AudioDleCBs =
 {
-  Audio_charValueChangeCB // Simple GATT Characteristic value change callback
+  Audio_charValueChangeCB
 };
 
 /*********************************************************************
@@ -971,23 +971,14 @@ static void PeripheralAudio_processStateChangeEvt(gaprole_States_t newState)
 
 static void Audio_charValueChangeCB(uint8_t paramID)
 {
-//    if(paramID == SIMPLEPROFILE_CHAR1)
-//    {
-//        uint8_t *pData;
-//
-//        // Allocate space for the event data.
-//        if ((pData = ICall_malloc(SIMPLEPROFILE_CHAR1_LEN)))
-//        {
-//            SimpleProfile_GetParameter(SIMPLEPROFILE_CHAR1, pData);
-//
-//            // Queue the event.
-//            SimpleBLEPeripheral_enqueueMsg(SBP_CHAR_CHANGE_EVT, paramID, pData);
-//        }
-//    }
-//    else
-//    {
-//        SimpleBLEPeripheral_enqueueMsg(SBP_CHAR_CHANGE_EVT, paramID, 0);
-//    }
+    if (paramID == AUDIO_NOTIFY_ENABLED)
+    {
+        Display_printf(dispHandle, 2, 0, "AUDIO_NOTIFY_ENABLED");
+    }
+    else
+    {
+        Display_printf(dispHandle, 2, 0, "AUDIO_NOTIFY_DISABLED");
+    }
 }
 
 /*********************************************************************
